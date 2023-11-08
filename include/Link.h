@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+#include <type_traits>
 namespace chain_of_responsibility
 {
 
@@ -7,6 +9,8 @@ template <typename DataType>
 class Link
 {
 public:
+
+    static constexpr bool IsPointerType = std::is_pointer<DataType>::value;
 
     enum class ProcessingResult
     {

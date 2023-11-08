@@ -15,8 +15,9 @@ set(CHAIN_OF_RESPONSIBILITY_INCLUDE_PATH ${CMAKE_CURRENT_LIST_DIR}/include)
 
 add_subdirectory("./examples")
 
-#if (CMAKE_VERSION VERSION_GREATER 3.12)
-#  set_property(TARGET chain-of-responsibility PROPERTY CXX_STANDARD 20)
-#endif()
+set(CATCH2_DIR ${CMAKE_CURRENT_LIST_DIR}/submodules/Catch2)
+set(CATCH2_INCLUDE_DIR ${CATCH2_DIR}/include)
 
-# TODO: Add tests and install targets if needed.
+add_subdirectory(${CATCH2_DIR})
+add_subdirectory("./tests")
+

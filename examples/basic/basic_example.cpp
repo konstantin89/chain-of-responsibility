@@ -8,10 +8,7 @@ class EmailData
 {
 public:
 
-    EmailData(std::string content): mContent(content)
-    {
-
-    }
+    EmailData(std::string content): mContent(content){ }
 
     void MarkAsSpam()
     {
