@@ -18,6 +18,7 @@ add_subdirectory("./examples")
 set(CATCH2_DIR ${CMAKE_CURRENT_LIST_DIR}/submodules/Catch2)
 set(CATCH2_INCLUDE_DIR ${CATCH2_DIR}/include)
 
-add_subdirectory(${CATCH2_DIR})
-add_subdirectory("./tests")
-
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_subdirectory(${CATCH2_DIR})
+    add_subdirectory("./tests")
+endif()

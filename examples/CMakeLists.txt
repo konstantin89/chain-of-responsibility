@@ -1,2 +1,2 @@
-add_subdirectory("./basic")
+add_subdirectory("./email_processing")
 

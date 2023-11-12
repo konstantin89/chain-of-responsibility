@@ -14,6 +14,7 @@ public:
 
     enum class ProcessingResult
     {
+        Undefined,
         Continue,
         Stop,
         Error
