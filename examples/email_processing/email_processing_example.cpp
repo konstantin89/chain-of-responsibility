@@ -3,7 +3,7 @@
 #include <vector>
 #include <unordered_set>
 
-#include "Chain.h"
+#include "chain-of-resp/Chain.h"
 
 class EmailData
 {
@@ -50,13 +50,11 @@ private:
 
 };
 
-class SpamFilterLink : public chain_of_responsibility::Link<EmailData>
+class SpamFilterLink : public chain_of_resp::Link<EmailData>
 {
 public: 
 
-    using ProcessingResult = typename chain_of_responsibility::Link<EmailData>::ProcessingResult;
-
-    ProcessingResult Process(DataRefType data) override
+    chain_of_resp::ProcessingResult Process(DataRefType data) override
     {
         auto content = data.GetContent();
 
@@ -66,24 +64,22 @@ public:
             if (pos != std::string::npos)
             {
                 data.MarkAsSpam();
-                return ProcessingResult::Continue;
+                return chain_of_resp::ProcessingResult::Continue;
             }
         }
 
-        return ProcessingResult::Continue;
+        return chain_of_resp::ProcessingResult::Continue;
     }
 
 private:
     std::vector<std::string> mSpamKeywords = { "spam", "hello" };
 };
 
-class SenderInspectionFilterLink : public chain_of_responsibility::Link<EmailData>
+class SenderInspectionFilterLink : public chain_of_resp::Link<EmailData>
 {
 public:
 
-    using ProcessingResult = typename chain_of_responsibility::Link<EmailData>::ProcessingResult;
-
-    ProcessingResult Process(DataRefType data) override
+    chain_of_resp::ProcessingResult Process(DataRefType data) override
     {
         auto sender = data.GetSender();
 
@@ -93,7 +89,7 @@ public:
             data.MarkSenderAsBlocked();
         }
 
-        return ProcessingResult::Continue;
+        return chain_of_resp::ProcessingResult::Continue;
     }
 
 private:
@@ -103,7 +99,7 @@ private:
 int main()
 {
     // Create chain link
-    using ChainType = chain_of_responsibility::Chain<EmailData>;
+    using ChainType = chain_of_resp::Chain<EmailData>;
     ChainType emailFilteringChain;
 
     // Create link that is responsible for spam detection in email
@@ -121,7 +117,7 @@ int main()
 
     // Process email in chain
     auto processStatus = emailFilteringChain.ProcessData(email);
-    if (ChainType::ChainStatus::Success != processStatus)
+    if (chain_of_resp::ChainStatus::Success != processStatus)
     {
         std::cout << "Failed to process email!" << std::endl;
         return -1;

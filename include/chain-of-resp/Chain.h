@@ -3,9 +3,10 @@
 #include <memory>
 #include <vector>
 
+#include "Defs.h"
 #include "Link.h"
 
-namespace chain_of_responsibility
+namespace chain_of_resp
 {
 
 template <typename DataType>
@@ -15,14 +16,6 @@ public:
     using LinkType = Link<DataType>;
     using DataRefType = typename LinkType::DataRefType;
     using LinkPtrType = std::unique_ptr<LinkType>;
-    using ProcessingResult = typename LinkType::ProcessingResult;
-
-    enum class ChainStatus
-    {
-        Undefined,
-        Success,
-        Error
-    };
 
 public:
     Chain()
@@ -58,6 +51,5 @@ private:
     std::vector<LinkPtrType> mLinks;
 
 };
-
 
 }

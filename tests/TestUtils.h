@@ -3,7 +3,7 @@
 #include <string>
 #include <algorithm>
 
-#include "Chain.h"
+#include "chain-of-resp/Chain.h"
 
 
 // ------------------- Number processing chain --------------------
@@ -22,30 +22,27 @@ private:
     int mNumber;
 };
 
-class IsNumberEvenLink : public chain_of_responsibility::Link<Number>
+class IsNumberEvenLink : public chain_of_resp::Link<Number>
 {
 public:
 
-    using ProcessingResult = typename chain_of_responsibility::Link<Number>::ProcessingResult;
 
-    ProcessingResult Process(DataRefType data) override
+    chain_of_resp::ProcessingResult Process(DataRefType data) override
     {
 
         data.isEven = !(data.GetValue() % 2);
-        return ProcessingResult::Continue;
+        return chain_of_resp::ProcessingResult::Continue;
     }
 };
 
-class IsNumberPositiveLink : public chain_of_responsibility::Link<Number>
+class IsNumberPositiveLink : public chain_of_resp::Link<Number>
 {
 public:
 
-    using ProcessingResult = typename chain_of_responsibility::Link<Number>::ProcessingResult;
-
-    ProcessingResult Process(DataRefType data) override
+    chain_of_resp::ProcessingResult Process(DataRefType data) override
     {
         data.isPositive = data.GetValue() >= 0;
-        return ProcessingResult::Continue;
+        return chain_of_resp::ProcessingResult::Continue;
     }
 };
 
@@ -65,11 +62,9 @@ private:
     std::string mText;
 };
 
-class TextLinesCounterLink : public chain_of_responsibility::Link<Text::TextPtrType>
+class TextLinesCounterLink : public chain_of_resp::Link<Text::TextPtrType>
 {
-    using ProcessingResult = typename chain_of_responsibility::Link<Text::TextPtrType>::ProcessingResult;
-
-    ProcessingResult Process(DataRefType data) override
+    chain_of_resp::ProcessingResult Process(DataRefType data) override
     {
         auto text = data->GetText();
         
@@ -80,18 +75,16 @@ class TextLinesCounterLink : public chain_of_responsibility::Link<Text::TextPtrT
 
         if (data->numberOfLines) data->numberOfLines++;
 
-        return ProcessingResult::Continue;
+        return chain_of_resp::ProcessingResult::Continue;
     }
 };
 
-class TextCharacterCounterLink : public chain_of_responsibility::Link<Text::TextPtrType>
+class TextCharacterCounterLink : public chain_of_resp::Link<Text::TextPtrType>
 {
-    using ProcessingResult = typename chain_of_responsibility::Link<Text::TextPtrType>::ProcessingResult;
-
-    ProcessingResult Process(DataRefType data) override
+    chain_of_resp::ProcessingResult Process(DataRefType data) override
     {
         auto text = data->GetText();
         data->numberOfCharacters = text.length();
-        return ProcessingResult::Continue;
+        return chain_of_resp::ProcessingResult::Continue;
     }
 };
